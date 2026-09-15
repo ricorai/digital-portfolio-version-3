@@ -287,3 +287,29 @@ body {
     margin-top: 14px;
   }
 }
+
+/* Section 01 entrance motion */
+:root { --hero-entrance-ease: cubic-bezier(0.22, 1, 0.36, 1); }
+.hero-entrance-nav { animation: hero-nav-in 460ms var(--hero-entrance-ease) 80ms both; }
+.hero-entrance-eyebrow { animation: hero-eyebrow-in 420ms var(--hero-entrance-ease) 150ms both; }
+.hero-entrance-wordmark { animation: hero-wordmark-in 500ms var(--hero-entrance-ease) 200ms both; clip-path: inset(0 0 0 0); }
+.hero-entrance-ring { animation: hero-art-in 520ms var(--hero-entrance-ease) 350ms both; }
+.hero-entrance-disc { animation: hero-art-in 520ms var(--hero-entrance-ease) 430ms both; }
+.hero-entrance-portrait { animation: hero-portrait-in 400ms var(--hero-entrance-ease) 400ms both; }
+.hero-entrance-greeting { animation: hero-copy-in 350ms var(--hero-entrance-ease) 600ms both; }
+.hero-entrance-name { animation: hero-name-in 300ms var(--hero-entrance-ease) 650ms both; }
+.hero-entrance-copy { animation: hero-copy-in 300ms var(--hero-entrance-ease) 750ms both; }
+@keyframes hero-nav-in { from { opacity: 0; transform: translate(-50%, -8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes hero-eyebrow-in { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes hero-wordmark-in { from { clip-path: inset(0 100% 0 0); opacity: 0; transform: translateY(26px); } to { clip-path: inset(0 0 0 0); opacity: 1; transform: translateY(0); } }
+@keyframes hero-art-in { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: scale(1); } }
+@keyframes hero-portrait-in { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes hero-copy-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes hero-name-in { from { clip-path: inset(100% 0 0 0); opacity: 0; transform: translateY(20px); } to { clip-path: inset(0 0 0 0); opacity: 1; transform: translateY(0); } }
+@media (max-width: 900px), (prefers-reduced-motion: reduce) {
+  .hero-entrance-nav, .hero-entrance-eyebrow, .hero-entrance-wordmark, .hero-entrance-ring, .hero-entrance-disc, .hero-entrance-portrait, .hero-entrance-greeting, .hero-entrance-name, .hero-entrance-copy { animation: none; clip-path: none; opacity: 1; transform: none; }
+  .hero-entrance-nav { transform: none; }
+}
+@media (min-width: 901px) and (prefers-reduced-motion: reduce) {
+  .hero-entrance-nav { transform: translateX(-50%); }
+}

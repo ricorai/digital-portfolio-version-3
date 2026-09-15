@@ -2,6 +2,7 @@
   var hero = document.querySelector('.hero');
   var layers = document.querySelectorAll('[data-hero-layer]');
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var parallaxReady = false;
 
   function fitHeroToViewport() {
     if (!hero || window.matchMedia('(max-width: 900px)').matches) {
@@ -35,6 +36,10 @@
   fitHeroToViewport();
   window.addEventListener('resize', fitHeroToViewport);
 
+  window.setTimeout(function () {
+    parallaxReady = true;
+  }, 1050);
+
   if (!hero || layers.length === 0 || reduced) {
     return;
   }
@@ -42,19 +47,29 @@
   var factors = { ring: 8, disc: 16 };
 
   hero.addEventListener('mousemove', function (e) {
+    if (!parallaxReady) {
+      return;
+    }
+
     var rect = hero.getBoundingClientRect();
     var dx = (e.clientX - rect.left) / rect.width - 0.5;
     var dy = (e.clientY - rect.top) / rect.height - 0.5;
 
     layers.forEach(function (el) {
       var f = factors[el.getAttribute('data-hero-layer')] || 10;
+      el.style.transition = 'none';
       el.style.transform =
         'translate(' + (dx * f).toFixed(1) + 'px,' + (dy * f).toFixed(1) + 'px)';
     });
   });
 
   hero.addEventListener('mouseleave', function () {
+    if (!parallaxReady) {
+      return;
+    }
+
     layers.forEach(function (el) {
+      el.style.transition = 'transform 420ms cubic-bezier(0.22, 1, 0.36, 1)';
       el.style.transform = '';
     });
   });
