@@ -1,33 +1,33 @@
-(function () {
-  var hero = document.querySelector('.hero');
-  var layers = document.querySelectorAll('[data-hero-layer]');
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var parallaxReady = false;
+(() => {
+  const hero = document.querySelector('.hero');
+  const layers = document.querySelectorAll('[data-hero-layer]');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let parallaxReady = false;
 
-  function fitHeroToViewport() {
+  const fitHeroToViewport = () => {
     if (!hero || window.matchMedia('(max-width: 900px)').matches) {
       return;
     }
 
-    var scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1000);
+    const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1000);
     hero.style.setProperty('--hero-scale', scale.toFixed(4));
-  }
+  };
 
-  function blocksZoomShortcut(event) {
+  const blocksZoomShortcut = (event) => {
     if (!event.ctrlKey && !event.metaKey) {
       return false;
     }
 
     return event.key === '+' || event.key === '=' || event.key === '-' || event.key === '0';
-  }
+  };
 
-  document.addEventListener('keydown', function (event) {
+  document.addEventListener('keydown', (event) => {
     if (blocksZoomShortcut(event)) {
       event.preventDefault();
     }
   }, true);
 
-  document.addEventListener('wheel', function (event) {
+  document.addEventListener('wheel', (event) => {
     if (event.ctrlKey || event.metaKey) {
       event.preventDefault();
     }
@@ -36,7 +36,7 @@
   fitHeroToViewport();
   window.addEventListener('resize', fitHeroToViewport);
 
-  window.setTimeout(function () {
+  window.setTimeout(() => {
     parallaxReady = true;
   }, 1050);
 
@@ -44,33 +44,39 @@
     return;
   }
 
-  var factors = { ring: 8, disc: 16 };
+  const factors = { ring: 8, disc: 16 };
 
-  hero.addEventListener('mousemove', function (e) {
+  layers.forEach((layer) => {
+    layer.addEventListener('animationend', () => {
+      layer.style.animation = 'none';
+    }, { once: true });
+  });
+
+  hero.addEventListener('mousemove', (event) => {
     if (!parallaxReady) {
       return;
     }
 
-    var rect = hero.getBoundingClientRect();
-    var dx = (e.clientX - rect.left) / rect.width - 0.5;
-    var dy = (e.clientY - rect.top) / rect.height - 0.5;
+    const rect = hero.getBoundingClientRect();
+    const dx = (event.clientX - rect.left) / rect.width - 0.5;
+    const dy = (event.clientY - rect.top) / rect.height - 0.5;
 
-    layers.forEach(function (el) {
-      var f = factors[el.getAttribute('data-hero-layer')] || 10;
-      el.style.transition = 'none';
-      el.style.transform =
-        'translate(' + (dx * f).toFixed(1) + 'px,' + (dy * f).toFixed(1) + 'px)';
+    layers.forEach((layer) => {
+      const factor = factors[layer.getAttribute('data-hero-layer')] || 10;
+      layer.style.transition = 'none';
+      layer.style.transform =
+        `translate(${(dx * factor).toFixed(1)}px, ${(dy * factor).toFixed(1)}px)`;
     });
   });
 
-  hero.addEventListener('mouseleave', function () {
+  hero.addEventListener('mouseleave', () => {
     if (!parallaxReady) {
       return;
     }
 
-    layers.forEach(function (el) {
-      el.style.transition = 'transform 420ms cubic-bezier(0.22, 1, 0.36, 1)';
-      el.style.transform = '';
+    layers.forEach((layer) => {
+      layer.style.transition = 'transform 420ms cubic-bezier(0.22, 1, 0.36, 1)';
+      layer.style.transform = '';
     });
   });
 })();
