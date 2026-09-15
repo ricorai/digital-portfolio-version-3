@@ -1,0 +1,289 @@
+:root {
+  --cream: #F0EFE8;
+  --ink: #393831;
+  --taupe: #B8AEA8;
+  --disc: #DCCFC1;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+.hero-viewport {
+  position: relative;
+  width: 100vw;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--cream);
+}
+
+.hero {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1920px;
+  min-height: 0;
+  height: 1000px;
+  margin: 0;
+  overflow: hidden;
+  background: var(--cream);
+  transform: translate(-50%, -50%) scale(var(--hero-scale, 1));
+  transform-origin: center;
+}
+
+/* Navigation */
+.hero-nav {
+  position: absolute;
+  top: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+}
+
+.hero-nav-list {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  list-style: none;
+}
+
+.hero-nav-list a {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--taupe);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.hero-nav-list a.is-active {
+  color: var(--ink);
+}
+
+.hero-nav-list a.is-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--ink);
+}
+
+/* Eyebrow */
+.hero-eyebrow {
+  position: absolute;
+  top: 120px;
+  left: 120px;
+  z-index: 10;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+}
+
+/* Wordmark */
+.hero-wordmark {
+  position: absolute;
+  top: 150px;
+  left: 226px;
+  z-index: 2;
+  font-family: 'Archivo Black', 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 240px;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Media (portrait + ring + disc) */
+.hero-media {
+  position: static;
+}
+
+.hero-ring,
+.hero-disc {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.hero-ring {
+  left: 1318px;
+  top: 465px;
+  width: 482px;
+  height: 500px;
+  z-index: 1;
+}
+
+.hero-disc {
+  left: 1353px;
+  top: 500px;
+  width: 412px;
+  height: 429px;
+  z-index: 2;
+}
+
+.hero-portrait {
+  position: absolute;
+  top: 358px;
+  left: 1267px;
+  width: 482px;
+  height: 642px;
+  object-fit: cover;
+  display: block;
+  z-index: 3;
+}
+
+/* Intro */
+.hero-greeting,
+.hero-name,
+.hero-copy {
+  position: absolute;
+  z-index: 10;
+  color: var(--ink);
+}
+
+.hero-greeting {
+  top: 587px;
+  left: 76px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.hero-name {
+  top: 633px;
+  left: 88px;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: clamp(48px, 6.9vw, 100px);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+.hero-copy {
+  top: 745px;
+  left: 76px;
+  width: 430px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hero-viewport {
+    width: auto;
+    height: auto;
+    overflow: visible;
+  }
+
+  .hero {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    height: auto;
+    min-height: 100svh;
+    padding: 72px 24px 48px;
+    transform: none;
+    overflow: visible;
+  }
+
+  .hero-nav {
+    position: static;
+    transform: none;
+    margin-bottom: 36px;
+  }
+
+  .hero-nav-list {
+    flex-wrap: wrap;
+    gap: 12px 18px;
+    justify-content: flex-start;
+  }
+
+  .hero-eyebrow {
+    position: static;
+    margin-bottom: 12px;
+  }
+
+  .hero-wordmark {
+    position: static;
+    font-size: clamp(48px, 17vw, 92px);
+  }
+
+  .hero-media {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: min(480px, 92vw);
+    height: auto;
+    aspect-ratio: 598 / 797;
+    margin: 24px auto 0;
+  }
+
+  .hero-portrait {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-ring {
+    left: -6%;
+    top: 22%;
+    width: 112%;
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .hero-disc {
+    left: 2%;
+    top: 26%;
+    width: 96%;
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .hero-greeting,
+  .hero-name,
+  .hero-copy {
+    position: static;
+  }
+
+  .hero-greeting {
+    margin-top: 28px;
+  }
+
+  .hero-name {
+    font-size: clamp(56px, 16vw, 96px);
+  }
+
+  .hero-copy {
+    width: 100%;
+    margin-top: 14px;
+  }
+}
