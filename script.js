@@ -67,6 +67,7 @@
 
     const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1000);
     hero.style.setProperty('--hero-scale', scale.toFixed(4));
+    document.documentElement.style.setProperty('--section-scale', scale.toFixed(4));
   };
 
   const blocksZoomShortcut = (event) => {
@@ -181,7 +182,7 @@
   let toolsFrame = 0;
   const updateToolFromScroll = () => {
     toolsFrame = 0;
-    if (!toolsSection || window.innerWidth <= 760) return;
+    if (!toolsSection || window.innerWidth <= 900) return;
     const rect = toolsSection.getBoundingClientRect();
     const range = Math.max(1, rect.height - window.innerHeight);
     const progress = Math.min(1, Math.max(0, -rect.top / range));
