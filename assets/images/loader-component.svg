@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path id="Ring_Core" d="M60 36C73.2548 36 84 46.7452 84 60C84 73.2548 73.2548 84 60 84C46.7452 84 36 73.2548 36 60C36 46.7452 46.7452 36 60 36ZM60 40C48.9543 40 40 48.9543 40 60C40 71.0457 48.9543 80 60 80C71.0457 80 80 71.0457 80 60C80 48.9543 71.0457 40 60 40Z" fill="url(#paint0_linear)"/>
+  <defs>
+    <linearGradient id="paint0_linear" x1="60" y1="36" x2="60" y2="84" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFDDBA"/>
+      <stop offset="0.5" stop-color="#D9AE8E"/>
+      <stop offset="1" stop-color="#9F8D8D"/>
+    </linearGradient>
+  </defs>
+</svg>

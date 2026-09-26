@@ -5,12 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Ric Ryan Mahusay — digital portfolio." />
   <title>Ric Ryan Mahusay | Digital Portfolio</title>
+  <link rel="icon" href="data:," />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cormorant+Garamond:wght@500&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Corinthia&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="is-loading">
+  <div class="site-loader" aria-hidden="true">
+    <img class="site-loader__mark" src="assets/images/loader-component.svg" alt="" />
+  </div>
   <div class="hero-viewport">
   <section class="hero" id="who-i-am" aria-labelledby="hero-heading">
     <nav class="hero-nav hero-entrance-nav" aria-label="Primary">
@@ -33,6 +37,7 @@
     <div class="hero-media" aria-hidden="true">
       <img class="hero-ring hero-entrance-ring" data-hero-layer="ring" src="assets/images/hero-ring-wide.svg" alt="" />
       <img class="hero-disc hero-entrance-disc" data-hero-layer="disc" src="assets/images/hero-disc-wide.svg" alt="" />
+      <span class="hero-ground-line"></span>
       <img class="hero-portrait hero-entrance-portrait" src="assets/images/hero-portrait-wide.png" alt="" />
     </div>
 
@@ -41,6 +46,61 @@
     <p class="hero-copy hero-entrance-copy">I build digital experiences and tools that make complicated work feel simpler.</p>
   </section>
   </div>
+
+  <main>
+    <section class="portfolio-section what-section" id="what-i-do" aria-labelledby="what-title"><div class="section-inner">
+      <header class="section-header section-header--split"><div><p class="section-kicker">02 / WHAT I DO</p><h2 class="section-title" id="what-title">WHAT I DO</h2></div><p class="section-intro">I like making things clearer, easier to use, and easier to keep improving.</p></header>
+      <div class="approach-grid">
+        <article class="approach-card"><span class="approach-number">01</span><span class="approach-arrow">↗</span><div class="approach-copy"><h3>UNDERSTAND</h3><p>I look for what feels slow, confusing, or harder than it should be.</p></div></article>
+        <article class="approach-card"><span class="approach-number">02</span><span class="approach-arrow">↗</span><div class="approach-copy"><h3>SOLVE</h3><p>I find a clear way forward and turn it into something useful.</p></div></article>
+        <article class="approach-card"><span class="approach-number">03</span><span class="approach-arrow">↗</span><div class="approach-copy"><h3>IMPROVE</h3><p>I make it easier to use, with fewer steps and less wasted time.</p></div></article>
+      </div>
+    </div></section>
+
+    <section class="portfolio-section background-section" id="experience" aria-labelledby="background-title"><div class="section-inner">
+      <header class="section-header"><p class="section-kicker">03 / EXPERIENCES</p><h2 class="section-title" id="background-title">MY BACKGROUND</h2></header>
+      <div class="background-list" data-accordion>
+        <article class="background-item is-open"><button class="background-trigger" type="button" aria-expanded="true"><span class="background-number">I</span><span class="background-phase">THE SPARK</span><span class="background-heading">IT STARTED AS A JOURNAL</span><span class="background-cue">−</span></button><div class="background-panel"><p>I started using AI for journaling and sorting through everyday thoughts. While using it, I kept noticing little things I wished it could do better, so I started experimenting for fun.</p></div></article>
+        <article class="background-item"><button class="background-trigger" type="button" aria-expanded="false"><span class="background-number">II</span><span class="background-phase">REAL WORK</span><span class="background-heading">HOW I PUT IT TO WORK</span><span class="background-cue">+</span></button><div class="background-panel" hidden><p>I brought those experiments into real projects, using AI to organize information, support daily work, and turn rough ideas into useful results.</p></div></article>
+        <article class="background-item"><button class="background-trigger" type="button" aria-expanded="false"><span class="background-number">III</span><span class="background-phase">THE RESET</span><span class="background-heading">RECOVERING, STUDYING, &amp; BUILDING</span><span class="background-cue">+</span></button><div class="background-panel" hidden><p>After work, I focused on recovery, continued studying, and kept building at a pace I could sustain.</p></div></article>
+        <article class="background-item"><button class="background-trigger" type="button" aria-expanded="false"><span class="background-number">IV</span><span class="background-phase">MY OWN PATH</span><span class="background-heading">BUILDING ON MY OWN</span><span class="background-cue">+</span></button><div class="background-panel" hidden><p>I started making small tools, websites, and systems around problems I understood firsthand.</p></div></article>
+        <article class="background-item"><button class="background-trigger" type="button" aria-expanded="false"><span class="background-number">V</span><span class="background-phase">NEXT CHAPTER</span><span class="background-heading">LOOKING FOR THE NEXT OPPORTUNITY</span><span class="background-cue">+</span></button><div class="background-panel" hidden><p>I am looking for a role or project where I can keep learning, contribute useful work, and grow with a team.</p></div></article>
+      </div>
+    </div></section>
+    <section class="portfolio-section tools-section" id="tools" aria-labelledby="tools-title"><div class="tools-sticky"><div class="section-inner">
+      <header class="section-header"><p class="section-kicker">04 / TOOLS I USE</p><h2 class="section-title" id="tools-title">TOOLS I USE</h2></header>
+      <div class="tools-layout">
+        <div class="tool-copy" aria-live="polite"><p class="tool-copy-label" data-tool-label>WORK WITH AI</p><p class="tool-copy-body" data-tool-copy>I use several AI tools through VS Code and command-line apps. I connect their work by hand with my own Ryos system, so each one can help where it works best.</p></div>
+        <div class="tool-wheel" data-tool-wheel data-active="0" aria-label="Toolkit categories"><span class="tool-wheel-highlight"></span>
+          <span class="wheel-slice wheel-slice--1"><img src="assets/images/tool-wheel/slice-01.svg" alt="" /></span><span class="wheel-slice wheel-slice--2"><img src="assets/images/tool-wheel/slice-02.svg" alt="" /></span><span class="wheel-slice wheel-slice--3"><img src="assets/images/tool-wheel/slice-03.svg" alt="" /></span><span class="wheel-slice wheel-slice--4"><img src="assets/images/tool-wheel/slice-04.svg" alt="" /></span><span class="wheel-slice wheel-slice--5"><img src="assets/images/tool-wheel/slice-05.svg" alt="" /></span><span class="wheel-slice wheel-slice--6"><img src="assets/images/tool-wheel/slice-06.svg" alt="" /></span>
+          <img class="tool-wheel-outline" src="assets/images/tool-wheel/outline.svg" alt="" /><img class="tool-wheel-center" src="assets/images/tool-wheel/center.svg" alt="" /><span class="tool-wheel-center-label">MY TOOLKIT</span>
+          <button class="tool-label tool-label--1 is-active" type="button" data-tool-index="0">WORK WITH<br />AI</button><button class="tool-label tool-label--2" type="button" data-tool-index="1">AUTOMATE<br />TASKS</button><button class="tool-label tool-label--3" type="button" data-tool-index="2">BUILD &amp;<br />TEST</button><button class="tool-label tool-label--4" type="button" data-tool-index="3">ORGANIZE<br />WORK</button><button class="tool-label tool-label--5" type="button" data-tool-index="4">REACH<br />PEOPLE</button><button class="tool-label tool-label--6" type="button" data-tool-index="5">DESIGN<br />IDEAS</button>
+        </div>
+      </div>
+    </div></div></section>
+    <section class="portfolio-section projects-section" id="projects" aria-labelledby="projects-title"><div class="section-inner">
+      <header class="section-header section-header--split"><div><p class="section-kicker">05 / PROJECTS</p><h2 class="section-title" id="projects-title">MY PROJECTS</h2></div><p class="section-intro">Personal systems, client work, and small tools I built to solve real problems and make everyday work easier.</p></header>
+      <div class="project-list">
+        <article class="project-row"><h3>RYOS RUNTIME</h3><p>A personal framework I built for fun to help AI check its own work, show uncertainty, and stay focused on the task.</p><span>VIEW ↗</span></article>
+        <article class="project-row"><h3>RYOS ORCHESTRATION</h3><p>A one-read guide that helps a new AI session understand a local project, find what is missing, and organize its files, memory, and references.</p><span>VIEW ↗</span></article>
+        <article class="project-row"><h3>RYOS LIBRARY</h3><p>A cleaned archive of about 8 million words from past AI sessions, organized so I can find old ideas and details even years later.</p><span>VIEW ↗</span></article>
+        <article class="project-row"><h3>KONSULTA.AI</h3><p>A client project that brings Facebook legal inquiries and connected tools into one workspace, so lawyers do not have to jump between apps.</p><span>VIEW ↗</span></article>
+        <article class="project-row"><h3>OTHER BUILDS</h3><p>A mix of personal tools and creative work: a PC shortcut sidebar, game scripts, portfolio versions, website mockups, marketing materials and more.</p><span>VIEW ↗</span></article>
+        <article class="project-row"><h3>FUTURE BUILDS</h3><p>A future personal workspace that brings my systems and tools together into one space for everyone to use.</p><span>VIEW ↗</span></article>
+      </div>
+    </div></section>
+
+    <section class="portfolio-section direction-section" id="direction" aria-labelledby="direction-title"><div class="section-inner">
+      <header class="section-header"><p class="section-kicker">06 / DIRECTION</p><h2 class="section-title" id="direction-title">DIRECTION</h2></header>
+      <div class="direction-layout"><p class="direction-statement">I want to keep building useful things, learn through real work, and make enough room to enjoy the life around it.</p><div class="direction-pillars"><article><h3>HOW</h3><p>Move steadily, keep learning, and let progress come from consistent work instead of constant pressure.</p></article><article><h3>WORK</h3><p>Keep growing through real projects, useful systems, and work that gives me more to learn.</p></article><article><h3>LIFE</h3><p>Build a stable life with enough space for people, ordinary days, and things outside work.</p></article></div></div>
+    </div></section>
+
+    <section class="portfolio-section contact-section" id="contact" aria-labelledby="contact-title"><div class="section-inner">
+      <header class="section-header"><p class="section-kicker">07 / CONTACT</p><h2 class="section-title" id="contact-title">GET IN TOUCH</h2></header>
+      <div class="contact-layout"><p class="contact-statement">LET'S MAKE<br />SOMETHING<br />USEFUL.</p><div class="contact-side"><p>If you have a project, role, or idea where I could help, feel free to reach out!</p><nav class="contact-links"><a href="https://www.linkedin.com" target="_blank" rel="noreferrer">LINKEDIN</a><a href="https://github.com/ricorai" target="_blank" rel="noreferrer">GITHUB</a><a id="resume" href="mailto:ricryan2023@gmail.com?subject=Resume%20request">RESUME</a></nav></div></div>
+      <footer class="site-footer"><a href="#who-i-am">BACK TO TOP ↑</a></footer>
+    </div></section>
+  </main>
 
   <script src="script.js" defer></script>
 </body>

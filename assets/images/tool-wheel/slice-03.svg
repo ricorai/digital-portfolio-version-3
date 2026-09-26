@@ -1,0 +1,8 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="340.5" height="292.896" viewBox="0 0 340.5 292.896" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Capability_03_Arc">
+<mask id="path-1-inside-1_0_10" fill="white">
+<path d="M340.5 0C340.5 59.3678 324.767 117.69 294.882 169.104C264.997 220.518 222.013 263.212 170.25 292.896L0 0H340.5Z"/>
+</mask>
+<path d="M340.5 0C340.5 59.3678 324.767 117.69 294.882 169.104C264.997 220.518 222.013 263.212 170.25 292.896L0 0H340.5Z" stroke="#B8AEA8" stroke-width="3" mask="url(#path-1-inside-1_0_10)"/>
+</g>
+</svg>
