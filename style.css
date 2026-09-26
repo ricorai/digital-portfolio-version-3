@@ -340,7 +340,16 @@ main { background: var(--cream); }
 .section-intro { width: calc(460px * var(--section-scale, 1)); font-size: calc(18px * var(--section-scale, 1)); line-height: 1.5; }
 .what-section { min-height: calc(920px * var(--section-scale, 1)); padding-top: calc(137px * var(--section-scale, 1)); }
 .approach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: calc(32px * var(--section-scale, 1)); margin-top: calc(72px * var(--section-scale, 1)); }
-.approach-card { position: relative; height: calc(420px * var(--section-scale, 1)); overflow: hidden; border: calc(1px * var(--section-scale, 1)) solid #69574d; border-radius: calc(4px * var(--section-scale, 1)); background: rgba(233,231,221,.55); }
+.approach-card { position: relative; isolation: isolate; height: calc(420px * var(--section-scale, 1)); overflow: hidden; border: 1px solid rgba(105,87,77,.24); border-radius: calc(18px * var(--section-scale, 1)); background: #d8cbbd; box-shadow: 0 12px 30px -24px rgba(67,49,35,.3); transition: box-shadow 300ms ease, border-color 300ms ease; }
+.approach-card::before { content: ''; position: absolute; z-index: -2; width: 90%; height: 85%; left: -35%; top: -45%; border-radius: 50%; background: #fffdf6; filter: blur(35px); opacity: .95; transition: transform 600ms ease; }
+.approach-card::after { content: ''; position: absolute; z-index: -1; inset: 2px; border-radius: max(0px, calc(18px * var(--section-scale, 1) - 2px)); background: radial-gradient(ellipse at 5% 0%, rgba(255,253,245,.8), transparent 65%), linear-gradient(145deg, rgba(242,238,228,.94), rgba(230,222,209,.96)); }
+@media (hover: hover) and (pointer: fine) {
+  .approach-card:hover { border-color: rgba(105,87,77,.42); box-shadow: 0 18px 36px -24px rgba(67,49,35,.35); }
+  .approach-card:hover::before { transform: translate(30%, 20%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .approach-card, .approach-card::before { transition: none; }
+}
 .approach-number { position: absolute; top: calc(27px * var(--section-scale, 1)); left: calc(39px * var(--section-scale, 1)); color: #69574d; font-family: 'Corinthia', cursive; font-size: calc(70px * var(--section-scale, 1)); line-height: .9; }
 .approach-arrow { position: absolute; top: calc(39px * var(--section-scale, 1)); right: calc(39px * var(--section-scale, 1)); font-size: calc(18px * var(--section-scale, 1)); }
 .approach-copy { position: absolute; top: 50%; left: calc(40px * var(--section-scale, 1)); width: calc(100% - calc(80px * var(--section-scale, 1))); transform: translateY(-20%); text-align: center; }
