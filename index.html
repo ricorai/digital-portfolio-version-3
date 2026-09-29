@@ -15,6 +15,7 @@
   <div class="site-loader" aria-hidden="true">
     <img class="site-loader__mark" src="assets/images/loader-component.svg" alt="" />
   </div>
+  <div id="smooth-wrapper"><div id="smooth-content">
   <div class="hero-viewport">
   <section class="hero" id="who-i-am" aria-labelledby="hero-heading">
     <nav class="hero-nav hero-entrance-nav" aria-label="Primary">
@@ -35,14 +36,17 @@
     <h1 class="hero-wordmark hero-entrance-wordmark" aria-hidden="true">PORTFOLIO</h1>
 
     <div class="hero-media" aria-hidden="true">
-      <img class="hero-ring hero-entrance-ring" data-hero-layer="ring" src="assets/images/hero-ring-wide.svg" alt="" />
-      <img class="hero-disc hero-entrance-disc" data-hero-layer="disc" src="assets/images/hero-disc-wide.svg" alt="" />
+      <svg class="hero-ring" viewBox="0 0 482 500" preserveAspectRatio="none" fill="none" aria-hidden="true" focusable="false">
+        <path class="hero-ring-draw" pathLength="100" d="M241 1C108.486 1 1 112.446 1 250C1 387.554 108.486 499 241 499C373.514 499 481 387.554 481 250C481 112.446 373.514 1 241 1Z" stroke="#B8AEA8" stroke-width="2" />
+      </svg>
+      <img class="hero-disc hero-entrance-disc" src="assets/images/hero-disc-wide.svg" alt="" />
       <span class="hero-ground-line"></span>
       <img class="hero-portrait hero-entrance-portrait" src="assets/images/hero-portrait-wide.png" alt="" />
     </div>
 
     <p class="hero-greeting hero-entrance-greeting">HELLO, I'M</p>
     <h2 class="hero-name hero-entrance-name" id="hero-heading">RIC</h2>
+    <span class="hero-name-line" aria-hidden="true"></span>
     <p class="hero-copy hero-entrance-copy">I build digital experiences and tools that make complicated work feel simpler.</p>
   </section>
   </div>
@@ -51,9 +55,9 @@
     <section class="portfolio-section what-section" id="what-i-do" aria-labelledby="what-title"><div class="section-inner">
       <header class="section-header section-header--split"><div><p class="section-kicker">02 / WHAT I DO</p><h2 class="section-title" id="what-title">WHAT I DO</h2></div><p class="section-intro">I like making things clearer, easier to use, and easier to keep improving.</p></header>
       <div class="approach-grid">
-        <article class="approach-card"><span class="approach-number">01</span><span class="approach-arrow">↗</span><div class="approach-copy"><h3>UNDERSTAND</h3><p>I look for what feels slow, confusing, or harder than it should be.</p></div></article>
-        <article class="approach-card"><span class="approach-number">02</span><span class="approach-arrow">↗</span><div class="approach-copy"><h3>SOLVE</h3><p>I find a clear way forward and turn it into something useful.</p></div></article>
-        <article class="approach-card"><span class="approach-number">03</span><span class="approach-arrow">↗</span><div class="approach-copy"><h3>IMPROVE</h3><p>I make it easier to use, with fewer steps and less wasted time.</p></div></article>
+        <article class="approach-card"><span class="approach-number">01</span><span class="approach-arrow">↗</span><div class="approach-copy"><h3>UNDERSTAND</h3><p>I find what slows the work down and what could be clearer.</p></div></article>
+        <article class="approach-card"><span class="approach-number">02</span><span class="approach-arrow">↗</span><div class="approach-copy"><h3>SOLVE</h3><p>I turn ideas into useful tools that help with the work.</p></div></article>
+        <article class="approach-card"><span class="approach-number">03</span><span class="approach-arrow">↗</span><div class="approach-copy"><h3>IMPROVE</h3><p>I simplify the steps so the work takes less time and effort.</p></div></article>
       </div>
     </div></section>
 
@@ -73,7 +77,14 @@
         <div class="tool-copy" aria-live="polite"><p class="tool-copy-label" data-tool-label>WORK WITH AI</p><p class="tool-copy-body" data-tool-copy>I use several AI tools through VS Code and command-line apps. I connect their work by hand with my own Ryos system, so each one can help where it works best.</p></div>
         <div class="tool-wheel" data-tool-wheel data-active="0" aria-label="Toolkit categories"><span class="tool-wheel-highlight"></span>
           <span class="wheel-slice wheel-slice--1"><img src="assets/images/tool-wheel/slice-01.svg" alt="" /></span><span class="wheel-slice wheel-slice--2"><img src="assets/images/tool-wheel/slice-02.svg" alt="" /></span><span class="wheel-slice wheel-slice--3"><img src="assets/images/tool-wheel/slice-03.svg" alt="" /></span><span class="wheel-slice wheel-slice--4"><img src="assets/images/tool-wheel/slice-04.svg" alt="" /></span><span class="wheel-slice wheel-slice--5"><img src="assets/images/tool-wheel/slice-05.svg" alt="" /></span><span class="wheel-slice wheel-slice--6"><img src="assets/images/tool-wheel/slice-06.svg" alt="" /></span>
-          <img class="tool-wheel-outline" src="assets/images/tool-wheel/outline.svg" alt="" /><img class="tool-wheel-center" src="assets/images/tool-wheel/center.svg" alt="" /><span class="tool-wheel-center-label">MY TOOLKIT</span>
+          <img class="tool-wheel-outline" src="assets/images/tool-wheel/outline.svg" alt="" /><img class="tool-wheel-center" src="assets/images/tool-wheel/center.svg" alt="" /><span class="tool-wheel-center-label">MY TOOLS</span>
+          <svg class="tool-wheel-light" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <g class="tool-wheel-light-sector">
+              <path class="tool-wheel-light-edge" d="M250 66.987 A500 500 0 0 1 750 66.987 L556.5 402.136 A113 113 0 0 0 443.5 402.136 Z" />
+              <path class="tool-wheel-light-trail" pathLength="100" d="M750 66.987 L556.5 402.136 A113 113 0 0 0 443.5 402.136 L250 66.987 A500 500 0 0 1 750 66.987" />
+              <path class="tool-wheel-light-tip" pathLength="100" d="M750 66.987 L556.5 402.136 A113 113 0 0 0 443.5 402.136 L250 66.987 A500 500 0 0 1 750 66.987" />
+            </g>
+          </svg>
           <button class="tool-label tool-label--1 is-active" type="button" data-tool-index="0">WORK WITH<br />AI</button><button class="tool-label tool-label--2" type="button" data-tool-index="1">AUTOMATE<br />TASKS</button><button class="tool-label tool-label--3" type="button" data-tool-index="2">BUILD &amp;<br />TEST</button><button class="tool-label tool-label--4" type="button" data-tool-index="3">ORGANIZE<br />WORK</button><button class="tool-label tool-label--5" type="button" data-tool-index="4">REACH<br />PEOPLE</button><button class="tool-label tool-label--6" type="button" data-tool-index="5">DESIGN<br />IDEAS</button>
         </div>
       </div>
@@ -102,6 +113,11 @@
     </div></section>
   </main>
 
+  </div></div>
+  <script src="assets/vendor/gsap/gsap.min.js" defer></script>
+  <script src="assets/vendor/gsap/ScrollTrigger.min.js" defer></script>
+  <script src="assets/vendor/gsap/ScrollSmoother.min.js" defer></script>
   <script src="script.js" defer></script>
+  <script src="text-reveal.js" defer></script>
 </body>
 </html>
