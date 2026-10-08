@@ -112,31 +112,68 @@
   const backgroundMotion = matchMedia('(prefers-reduced-motion: reduce)');
   let backgroundFrame = 0;
   let backgroundManual = null;
-  let backgroundManualTop = 0;
+  let backgroundPan = null;
+  let backgroundOwnsScroll = false;
   let backgroundStep = 1;
   let backgroundExtra = 0;
+  const backgroundHeights = accordionItems.map(() => 0);
+  const backgroundCopyHeights = accordionItems.map(() => 0);
+  let backgroundTime = 0;
+  const backgroundAmounts = accordionItems.map(() => 0);
   const renderBackground = () => {
+    cancelAnimationFrame(backgroundFrame);
     backgroundFrame = 0;
     if (!backgroundList) return;
     const top = backgroundList.getBoundingClientRect().top;
-    if (backgroundManual !== null && !backgroundMotion.matches &&
-        Math.abs(top - backgroundManualTop) > 8) backgroundManual = null;
-    const position = backgroundManual !== null ? backgroundManual
-      : backgroundMotion.matches ? 0
-      : Math.max(0, Math.min(accordionItems.length - 1,
-          (innerHeight * 0.4 - top) / backgroundStep));
+    // Compute the desired layout from top to bottom, independently of the
+    // animated heights. This centers the actual row without layout feedback.
+    let plannedExpansion = 0;
+    const targets = accordionItems.map((item, index) => {
+      const center = top + index * backgroundStep + backgroundStep / 2 + plannedExpansion;
+      // A reading zone, not a single-pixel peak: fully open near the center,
+      // with a gradual falloff outside it so wheel increments cannot miss it.
+      const distance = Math.abs(center - innerHeight / 2);
+      const proximity = Math.max(0, Math.min(1,
+        1 - (distance - backgroundStep * 0.4) / (backgroundStep * 0.6)));
+      const target = backgroundManual !== null ? Number(index === backgroundManual)
+        : backgroundMotion.matches ? Number(index === 0)
+        : proximity * proximity * (3 - 2 * proximity);
+      plannedExpansion += backgroundHeights[index] * target;
+      return target;
+    });
+    const now = performance.now();
+    const blend = backgroundMotion.matches ? 1
+      : 1 - Math.exp(-Math.min(40, backgroundTime ? now - backgroundTime : 16) / 90);
+    backgroundTime = now;
+    let unsettled = false;
+    let total = 0;
     accordionItems.forEach((item, index) => {
-      const amount = Math.max(0, 1 - Math.abs(index - position));
+      const target = targets[index];
+      if (!backgroundPan) {
+        backgroundAmounts[index] += (target - backgroundAmounts[index]) * blend;
+        if (Math.abs(target - backgroundAmounts[index]) < 0.001) backgroundAmounts[index] = target;
+        else unsettled = true;
+      }
+      const amount = backgroundAmounts[index];
+      total += backgroundHeights[index] * amount;
       const panel = item.querySelector('.background-panel');
       item.style.setProperty('--row-open', amount.toFixed(4));
-      panel.style.height = (backgroundExtra * amount).toFixed(2) + 'px';
-      panel.style.opacity = String(Math.min(1, amount * 1.6));
+      panel.style.height = (backgroundHeights[index] * amount).toFixed(2) + 'px';
+      // Keep the full copy clear of the divider before revealing it. Fade it
+      // away before the closing panel becomes shorter than its text.
+      const reveal = Math.max(0, Math.min(1,
+        (backgroundHeights[index] * amount - backgroundCopyHeights[index] - 16) / 32));
+      panel.style.opacity = String(reveal * reveal * (3 - 2 * reveal));
       const open = amount > 0.05;
       item.classList.toggle('is-open', open);
       item.querySelector('.background-trigger').setAttribute('aria-expanded', String(open));
       panel.setAttribute('aria-hidden', String(!open));
       item.querySelector('.background-cue').textContent = amount > 0.5 ? '−' : '+';
     });
+    // Preserve the list's total footprint while the first row is still closed.
+    backgroundList.style.paddingBottom = Math.max(0, backgroundExtra - total).toFixed(2) + 'px';
+    if (unsettled) backgroundFrame = requestAnimationFrame(renderBackground);
+    else backgroundTime = 0;
   };
   const scheduleBackground = () => {
     if (!backgroundFrame) backgroundFrame = requestAnimationFrame(renderBackground);
@@ -146,8 +183,14 @@
     // One shared expansion budget keeps total list height constant as rows trade space.
     const gap = parseFloat(getComputedStyle(backgroundList).rowGap) || 0;
     backgroundStep = accordionItems[0].querySelector('.background-trigger').offsetHeight + gap;
-    backgroundExtra = Math.max(...accordionItems.map(item =>
-      item.querySelector('.background-panel p').offsetHeight)) + 48;
+    accordionItems.forEach((item, index) => {
+      const copy = item.querySelector('.background-panel p');
+      const contentHeight = copy.getBoundingClientRect().height - parseFloat(getComputedStyle(copy).paddingBottom);
+      // Equal breathing room below every story, independent of line count.
+      backgroundCopyHeights[index] = contentHeight;
+      backgroundHeights[index] = contentHeight + 64;
+    });
+    backgroundExtra = Math.max(...backgroundHeights);
     renderBackground();
     window.ScrollTrigger?.refresh();
   };
@@ -159,10 +202,17 @@
       panel.hidden = false;
       panel.id = 'background-detail-' + index;
       button.setAttribute('aria-controls', panel.id);
+      button.addEventListener('pointerdown', event => {
+        if (event.pointerType === 'touch' || event.button !== 0) return;
+        // Focus normally scrolls the native document before ScrollSmoother's
+        // focus callback runs. During an unfinished scroll those positions differ.
+        event.preventDefault();
+        // Keep mouse-up/click attached to the pressed row while its geometry is
+        // moving. Otherwise a scroll reversal can move another row under mouse-up.
+        button.setPointerCapture(event.pointerId);
+      });
       button.addEventListener('click', () => {
-        backgroundManual = index;
-        backgroundManualTop = backgroundList.getBoundingClientRect().top;
-        renderBackground();
+        panBackgroundRow(index);
       });
     });
     measureBackground();
@@ -198,9 +248,6 @@
     while (card.firstChild) front.append(card.firstChild);
     const back = document.createElement('div');
     back.className = 'approach-face approach-back';
-    const number = document.createElement('span');
-    number.className = 'approach-number';
-    number.textContent = String(index + 1).padStart(2, '0');
     const copy = document.createElement('div');
     copy.className = 'approach-copy';
     const heading = document.createElement('h3');
@@ -208,7 +255,7 @@
     const paragraph = document.createElement('p');
     paragraph.textContent = description;
     copy.append(heading, paragraph);
-    back.append(number, copy);
+    back.append(copy);
     rotor.append(front, back);
     card.append(rotor);
     card.tabIndex = 0;
@@ -364,6 +411,7 @@
     }
     event.preventDefault();
     const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
+    resumeBackgroundScroll();
     if (heldAt !== null) {
       clearWheelTravel();
       moveCappedWheel(Math.sign(delta));
@@ -376,10 +424,92 @@
     if (!wheelFrame) wheelFrame = requestAnimationFrame(runWheelTravel);
   }, { passive: false, capture: true });
   window.addEventListener('resize', clearWheelTravel);
+  const stopBackgroundPan = () => {
+    backgroundPan?.kill();
+    backgroundPan = null;
+    if (backgroundOwnsScroll) {
+      backgroundOwnsScroll = false;
+      smoother?.paused(false);
+    }
+  };
+  const panBackgroundRow = index => {
+    // Retarget from the current rendered state without briefly returning control
+    // to the smoother between two selections.
+    backgroundPan?.kill();
+    backgroundPan = null;
+    backgroundManual = index;
+    clearWheelTravel();
+    releaseApproach();
+    // Sample the painted transform before pausing: on a wheel/ticker boundary
+    // the smoother's cached scrollTop can be one render ahead of the DOM.
+    const visualY = smoother ? -smoother.content().getBoundingClientRect().top : window.scrollY;
+    // A click owns scrolling until it finishes or new user input interrupts it.
+    // paused() stops the smoother's catch-up tween, not just our wheel queue.
+    if (smoother && !smoother.paused()) {
+      smoother.paused(true);
+      backgroundOwnsScroll = true;
+    }
+    // Finish the scroll-to-click handoff before measuring the row. Setting the
+    // position flushes ScrollSmoother's outstanding interpolation/update first.
+    if (smoother) smoother.scrollTop(visualY);
+    cancelAnimationFrame(backgroundFrame);
+    backgroundFrame = 0;
+    backgroundTime = 0;
+    const top = backgroundList.getBoundingClientRect().top + visualY;
+    // Use the final row layout, after all preceding rows have closed.
+    const destination = Math.max(0, Math.min(
+      document.documentElement.scrollHeight - innerHeight,
+      top + index * backgroundStep + backgroundStep / 2 - innerHeight * 0.5));
+    if (backgroundMotion.matches || !window.gsap) {
+      renderBackground();
+      window.scrollTo({ top: destination, behavior: 'instant' });
+      stopBackgroundPan();
+      return;
+    }
+    const initialAmounts = [...backgroundAmounts];
+    const trigger = accordionItems[index].querySelector('.background-trigger');
+    const initialRect = trigger.getBoundingClientRect();
+    // Resolve the final position once, including borders and fractional row sizes.
+    // Feeding live transformed geometry back into ScrollSmoother each frame can
+    // race its render tick and produce occasional corrective jumps.
+    const precedingHeight = accordionItems.slice(0, index).reduce((sum, item) =>
+      sum + item.querySelector('.background-panel').getBoundingClientRect().height, 0);
+    const finalY = Math.max(0, Math.min(
+      document.documentElement.scrollHeight - innerHeight,
+      (smoother ? -smoother.content().getBoundingClientRect().top : window.scrollY)
+        + initialRect.top + initialRect.height / 2 - precedingHeight - innerHeight / 2));
+    const position = { progress: 0 };
+    backgroundPan = gsap.to(position, {
+      progress: 1, duration: 0.55, ease: 'power2.inOut',
+      onUpdate: () => {
+        initialAmounts.forEach((amount, row) => {
+          backgroundAmounts[row] = amount + ((row === index ? 1 : 0) - amount) * position.progress;
+        });
+        renderBackground();
+        const nextY = visualY + (finalY - visualY) * position.progress;
+        if (smoother) smoother.scrollTop(nextY);
+        else window.scrollTo({ top: nextY, behavior: 'instant' });
+      },
+      onComplete: stopBackgroundPan
+    });
+  };
+  const resumeBackgroundScroll = () => {
+    stopBackgroundPan();
+    if (!backgroundMotion.matches) backgroundManual = null;
+  };
+  window.addEventListener('touchstart', resumeBackgroundScroll, { passive: true });
+  window.addEventListener('resize', resumeBackgroundScroll);
+  document.addEventListener('keydown', event => {
+    if (['Escape', 'Tab', 'ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)) resumeBackgroundScroll();
+  });
+  backgroundMotion.addEventListener('change', resumeBackgroundScroll);
   window.addEventListener('blur', clearWheelTravel);
   document.addEventListener('keydown', clearWheelTravel);
   document.addEventListener('click', event => {
-    if (event.target.closest('a[href]')) clearWheelTravel();
+    if (event.target.closest('a[href]')) {
+      clearWheelTravel();
+      resumeBackgroundScroll();
+    }
   });
   document.addEventListener('keydown', event => {
     if (['Escape', 'Tab', 'ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)) {
@@ -407,6 +537,7 @@
       smoother = ScrollSmoother.create({
         wrapper: '#smooth-wrapper', content: '#smooth-content',
         smooth: 0.4, smoothTouch: false, effects: false,
+        onFocusIn: (self, event) => event.target.closest('.background-trigger') ? false : undefined,
         onUpdate: () => {
           // The tools copy follows the rendered position, not the target position.
           settleApproach();
@@ -416,7 +547,11 @@
       });
       ScrollTrigger.create({
         trigger: '.tools-section', pin: '.tools-sticky', start: 'top top',
-        end: 'bottom bottom', pinSpacing: false, invalidateOnRefresh: true
+        end: 'bottom bottom', pinSpacing: false, invalidateOnRefresh: true,
+        onRefresh: self => {
+          // Match the page lattice at entry, then keep that origin while pinned.
+          self.pin.style.setProperty('--tools-pattern-y', `${-self.start % 576}px`);
+        }
       });
       const refresh = () => ScrollTrigger.refresh();
       document.fonts?.ready.then(refresh);
